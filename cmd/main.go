@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/johnfercher/tree/pkg/node"
 	"github.com/johnfercher/tree/pkg/tree"
 )
