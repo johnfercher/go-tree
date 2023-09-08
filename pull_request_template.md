@@ -11,11 +11,10 @@
 **Checklist**
 > check with "x", if applied to your change
 
-- [ ] All methods associated with structs has ```func (<first character> *struct) method() {}``` name style. <!-- If applied -->
+- [ ] All methods associated with structs has ```func (<first character of struct name> *struct) method() {}``` name style. <!-- If applied -->
 - [ ] Wrote unit tests for new/changed features. <!-- If applied -->
 - [ ] Updated docs/doc.go <!-- If applied -->
-- [ ] Updated pkg/pdf/example_test.go <!-- If applied -->
+- [ ] Updated pkg/example_test.go <!-- If applied -->
 - [ ] Updated README.md <!-- If applied -->
-- [ ] Updated all examples inside internal/examples <!-- If applied -->
 - [ ] New public methods/structs/interfaces has comments upside them explaining they responsibilities <!-- If applied -->
 - [ ] Executed `make dod` with none issues pointed out by `golangci-lint` and `goreportcard-cli`
