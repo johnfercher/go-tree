@@ -2,10 +2,11 @@ package tree_test
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/johnfercher/tree/pkg/node"
 	"github.com/johnfercher/tree/pkg/tree"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestNew(t *testing.T) {
@@ -33,8 +34,8 @@ func TestTree_AddRoot_WhenTreeIsNotEmpty_ShouldReturnFalse(t *testing.T) {
 	sut := tree.New[int]()
 
 	// Act
-	added := sut.AddRoot(node.New(0, 42))
-	added = sut.AddRoot(node.New(0, 43))
+	_ = sut.AddRoot(node.New(0, 42))
+	added := sut.AddRoot(node.New(0, 43))
 
 	// Assert
 	assert.False(t, added)

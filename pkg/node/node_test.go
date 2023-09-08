@@ -2,10 +2,11 @@ package node_test
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/johnfercher/tree/pkg/node"
 	"github.com/johnfercher/tree/pkg/tree"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 type anyType struct {

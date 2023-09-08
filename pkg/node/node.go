@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// nolint:structcheck,gocritic
 type Node[T any] struct {
 	ID       int
 	Data     T
@@ -11,9 +12,9 @@ type Node[T any] struct {
 	nexts    []*Node[T]
 }
 
-func New[T any](ID int, data T) *Node[T] {
+func New[T any](id int, data T) *Node[T] {
 	return &Node[T]{
-		ID:   ID,
+		ID:   id,
 		Data: data,
 	}
 }
