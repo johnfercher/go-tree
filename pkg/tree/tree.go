@@ -1,27 +1,18 @@
 package tree
 
 import (
-	"fmt"
+	"github.com/johnfercher/tree/pkg/node"
 )
 
 type Tree[T any] struct {
-	root      *Node[T]
-	lastAdded *Node[T]
+	root *node.Node[T]
 }
 
 func New[T any]() *Tree[T] {
 	return &Tree[T]{}
 }
 
-func (t *Tree[T]) Root() (*Node[T], bool) {
-	if t.root == nil {
-		return nil, false
-	}
-
-	return t.root, true
-}
-
-func (t *Tree[T]) AddRoot(node *Node[T]) bool {
+func (t *Tree[T]) AddRoot(node *node.Node[T]) (addedRoot bool) {
 	if t.root == nil {
 		t.root = node
 		return true
@@ -30,7 +21,15 @@ func (t *Tree[T]) AddRoot(node *Node[T]) bool {
 	return false
 }
 
-func (t *Tree[T]) Add(parentID int, node *Node[T]) bool {
+func (t *Tree[T]) GetRoot() (root *node.Node[T], hasRoot bool) {
+	if t.root == nil {
+		return nil, false
+	}
+
+	return t.root, true
+}
+
+func (t *Tree[T]) Add(parentID int, node *node.Node[T]) (addedNode bool) {
 	if t.root == nil {
 		return false
 	}
@@ -38,26 +37,43 @@ func (t *Tree[T]) Add(parentID int, node *Node[T]) bool {
 	return t.add(parentID, t.root, node)
 }
 
-func (t *Tree[T]) Backtrack() []*Node[T] {
-	return t.lastAdded.Backtrack()
-}
-
-func (t *Tree[T]) Print() {
+func (t *Tree[T]) Get(id int) (node *node.Node[T], found bool) {
 	if t.root == nil {
-		fmt.Println("empty tree")
-		return
+		return nil, false
 	}
+
+	if t.root.ID == id {
+		return t.root, true
+	}
+
+	return t.get(id, t.root)
 }
 
-func (t *Tree[T]) add(parentID int, node *Node[T], newNode *Node[T]) bool {
-	if parentID == node.ID {
-		newNode.Previous = node
-		t.lastAdded = newNode
-		node.Nexts = append(node.Nexts, newNode)
+func (t *Tree[T]) Backtrack(id int) ([]*node.Node[T], bool) {
+	n, found := t.Get(id)
+	if !found {
+		return nil, found
+	}
+
+	return n.Backtrack(), true
+}
+
+func (t *Tree[T]) GetStructure() ([]string, bool) {
+	if t.root == nil {
+		return nil, false
+	}
+
+	return t.root.GetStructure(), true
+}
+
+func (t *Tree[T]) add(parentID int, parentNode *node.Node[T], newNode *node.Node[T]) bool {
+	if parentID == parentNode.ID {
+		parentNode.AddNext(newNode)
 		return true
 	}
 
-	for _, next := range node.Nexts {
+	nexts := parentNode.GetNexts()
+	for _, next := range nexts {
 		added := t.add(parentID, next, newNode)
 		if added {
 			return true
@@ -67,23 +83,18 @@ func (t *Tree[T]) add(parentID int, node *Node[T], newNode *Node[T]) bool {
 	return false
 }
 
-func (t *Tree[T]) findNode(current *Node[T], parentID int, depth int) (*Node[T], *Node[T], bool) {
-	if current.ID == parentID {
-		return current, nil, true
-	}
-
-	for _, next := range current.Nexts {
-		if next.ID == parentID {
-			return current, next, true
+func (t *Tree[T]) get(id int, parent *node.Node[T]) (*node.Node[T], bool) {
+	nexts := parent.GetNexts()
+	for _, next := range nexts {
+		if next.ID == id {
+			return next, true
 		}
-	}
 
-	for _, next := range current.Nexts {
-		parent, node, found := t.findNode(next, parentID, depth+1)
+		node, found := t.get(id, next)
 		if found {
-			return parent, node, true
+			return node, true
 		}
 	}
 
-	return nil, nil, false
+	return nil, false
 }

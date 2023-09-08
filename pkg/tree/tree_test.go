@@ -1,26 +1,230 @@
-package tree
+package tree_test
 
 import (
+	"fmt"
+	"github.com/johnfercher/tree/pkg/node"
+	"github.com/johnfercher/tree/pkg/tree"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-type anyType struct {
-	Value int
+func TestNew(t *testing.T) {
+	// Act
+	sut := tree.New[int]()
+
+	// Assert
+	assert.NotNil(t, sut)
+	assert.Equal(t, "*tree.Tree[int]", fmt.Sprintf("%T", sut))
 }
 
-func TestTree_Add(t *testing.T) {
+func TestTree_AddRoot_WhenTreeIsEmpty_ShouldReturnTrue(t *testing.T) {
 	// Arrange
-	tree := New[*anyType]()
+	sut := tree.New[int]()
 
 	// Act
-	tree.AddRoot(NewNode(0, &anyType{Value: 0}))
-	tree.Add(0, NewNode(1, &anyType{Value: 0}))
-	tree.Add(1, NewNode(3, &anyType{Value: 0}))
-	tree.Add(1, NewNode(4, &anyType{Value: 0}))
-	tree.Add(4, NewNode(5, &anyType{Value: 0}))
+	added := sut.AddRoot(node.New(0, 42))
 
-	nodes := tree.Backtrack()
-	for _, node := range nodes {
-		node.Print("label")
+	// Assert
+	assert.True(t, added)
+}
+
+func TestTree_AddRoot_WhenTreeIsNotEmpty_ShouldReturnFalse(t *testing.T) {
+	// Arrange
+	sut := tree.New[int]()
+
+	// Act
+	added := sut.AddRoot(node.New(0, 42))
+	added = sut.AddRoot(node.New(0, 43))
+
+	// Assert
+	assert.False(t, added)
+}
+
+func TestTree_GetRoot_WhenThereIsNotRoot_ShouldReturnFalse(t *testing.T) {
+	// Arrange
+	sut := tree.New[int]()
+
+	// Act
+	root, hasRoot := sut.GetRoot()
+
+	// Assert
+	assert.Nil(t, root)
+	assert.False(t, hasRoot)
+}
+
+func TestTree_GetRoot_WhenThereIsRoot_ShouldReturnTrue(t *testing.T) {
+	// Arrange
+	sut := tree.New[int]()
+	sut.AddRoot(node.New(0, 42))
+
+	// Act
+	root, hasRoot := sut.GetRoot()
+
+	// Assert
+	assert.NotNil(t, root)
+	assert.True(t, hasRoot)
+}
+
+func TestTree_Add_WhenThereIsNoRoot_ShouldReturnFalse(t *testing.T) {
+	// Arrange
+	tr := tree.New[int]()
+
+	// Act
+	added := tr.Add(0, node.New(0, 42))
+
+	// Assert
+	assert.False(t, added)
+}
+
+func TestTree_Add_WhenRootIsNotRight_ShouldReturnTrue(t *testing.T) {
+	// Arrange
+	tr := tree.New[int]()
+
+	// Act
+	_ = tr.AddRoot(node.New(0, 42))
+	added := tr.Add(3, node.New(1, 42))
+
+	// Assert
+	assert.False(t, added)
+}
+
+func TestTree_Add_WhenThereIsRootAndRootIsRight_ShouldReturnTrue(t *testing.T) {
+	// Arrange
+	tr := tree.New[int]()
+
+	// Act
+	_ = tr.AddRoot(node.New(0, 42))
+	added := tr.Add(0, node.New(1, 42))
+
+	// Assert
+	assert.True(t, added)
+}
+
+func TestTree_Get_WhenThereIsNoRoot_ShouldReturnFalse(t *testing.T) {
+	// Arrange
+	tr := tree.New[string]()
+
+	// Act
+	n, found := tr.Get(8)
+
+	// Assert
+	assert.Nil(t, n)
+	assert.False(t, found)
+}
+
+func TestTree_Get_WhenThereIsNoId_ShouldReturnFalse(t *testing.T) {
+	// Arrange
+	tr := tree.New[string]()
+
+	tr.AddRoot(node.New(0, "0"))
+	tr.Add(0, node.New(1, "1.0"))
+
+	// Act
+	node, found := tr.Get(8)
+
+	// Assert
+	assert.Nil(t, node)
+	assert.False(t, found)
+}
+
+func TestTree_Get_WhenThereIsIdOnRoot_ShouldReturnTrue(t *testing.T) {
+	// Arrange
+	tr := tree.New[string]()
+
+	tr.AddRoot(node.New(0, "0"))
+
+	// Act
+	node, found := tr.Get(0)
+
+	// Assert
+	assert.NotNil(t, node)
+	assert.True(t, found)
+}
+
+func TestTree_Get_WhenThereIsId_ShouldReturnTrue(t *testing.T) {
+	// Arrange
+	tr := tree.New[string]()
+
+	tr.AddRoot(node.New(0, "0"))
+	tr.Add(0, node.New(1, "1.0"))
+
+	// Act
+	node, found := tr.Get(1)
+
+	// Assert
+	assert.NotNil(t, node)
+	assert.True(t, found)
+}
+
+func TestTree_Backtrack_WhenIdNotFound_ShouldReturnFalse(t *testing.T) {
+	// Arrange
+	tr := tree.New[string]()
+
+	tr.AddRoot(node.New(0, "0.0"))
+
+	// Act
+	n, found := tr.Backtrack(1)
+
+	// Assert
+	assert.Nil(t, n)
+	assert.False(t, found)
+}
+
+func TestTree_Backtrack_WhenIdFound_ShouldReturnTrue(t *testing.T) {
+	// Arrange
+	tr := tree.New[string]()
+
+	tr.AddRoot(node.New(0, "0.0"))
+	tr.Add(0, node.New(1, "1.0"))
+	tr.Add(1, node.New(2, "2.0"))
+	tr.Add(2, node.New(3, "3.0"))
+
+	// Act
+	n, found := tr.Backtrack(3)
+
+	// Assert
+	assert.NotNil(t, n)
+	assert.True(t, found)
+}
+
+func TestTree_GetStructure_WhenThereIsNoRoot_ShouldReturnFalse(t *testing.T) {
+	// Arrange
+	tr := tree.New[string]()
+
+	// Act
+	structure, found := tr.GetStructure()
+
+	// Assert
+	assert.Nil(t, structure)
+	assert.False(t, found)
+}
+
+func TestTree_GetStructure_WhenThereIsRoot_ShouldReturnTrue(t *testing.T) {
+	// Arrange
+	tr := tree.New[string]()
+
+	tr.AddRoot(node.New(0, "0.0"))
+	tr.Add(0, node.New(1, "1.0"))
+	tr.Add(0, node.New(2, "1.1"))
+	tr.Add(0, node.New(3, "1.2"))
+	tr.Add(1, node.New(4, "2.0"))
+	tr.Add(1, node.New(5, "2.1"))
+	tr.Add(1, node.New(6, "2.2"))
+	tr.Add(2, node.New(7, "2.0"))
+	tr.Add(2, node.New(8, "2.1"))
+	tr.Add(2, node.New(9, "2.2"))
+	tr.Add(3, node.New(10, "3.0"))
+	tr.Add(3, node.New(11, "3.1"))
+	tr.Add(3, node.New(12, "3.2"))
+	tr.Add(4, node.New(13, "4.0"))
+
+	// Act
+	structure, found := tr.GetStructure()
+
+	// Assert
+	assert.NotNil(t, structure)
+	assert.True(t, found)
+	for _, str := range structure {
+		assert.NotEmpty(t, str)
 	}
 }
