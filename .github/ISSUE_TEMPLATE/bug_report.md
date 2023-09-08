@@ -32,6 +32,7 @@ insert short code snippets here
 **Additional details (please complete the following information):**
 - OS: [e.g. MacOS, Ubuntu, CentOS]
 - Python Version [e.g. `3.5`, `3.6`]
+- Go Version [e.g. `1.20.0`, `1.21.0`]
 - `HEAD` Commit hash [e.g. `4629c62`]
 
 **Additional context**
