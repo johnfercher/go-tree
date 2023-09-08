@@ -34,8 +34,8 @@ func TestTree_AddRoot_WhenTreeIsNotEmpty_ShouldReturnFalse(t *testing.T) {
 	sut := tree.New[int]()
 
 	// Act
-	added := sut.AddRoot(node.New(0, 42))
-	added = sut.AddRoot(node.New(0, 43))
+	_ = sut.AddRoot(node.New(0, 42))
+	added := sut.AddRoot(node.New(0, 43))
 
 	// Assert
 	assert.False(t, added)

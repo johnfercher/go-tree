@@ -7,6 +7,7 @@ import (
 	"github.com/johnfercher/tree/pkg/tree"
 )
 
+// nolint:gomnd,gocritic
 func main() {
 	tr := tree.New[string]()
 
@@ -22,13 +23,18 @@ func main() {
 	tr.Add(2, node.New(6, "2.6"))
 
 	root, ok := tr.GetRoot()
-	node, ok := tr.Get(3)
-	structure, ok := tr.GetStructure()
-	nodes, ok := tr.Backtrack(6)
-
 	fmt.Println(ok)
 	fmt.Println(root)
+
+	node, ok := tr.Get(3)
+	fmt.Println(ok)
 	fmt.Println(node)
+
+	structure, ok := tr.GetStructure()
+	fmt.Println(ok)
 	fmt.Println(structure)
+
+	nodes, ok := tr.Backtrack(6)
+	fmt.Println(ok)
 	fmt.Println(nodes)
 }

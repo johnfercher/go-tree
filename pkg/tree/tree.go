@@ -4,6 +4,7 @@ import (
 	"github.com/johnfercher/tree/pkg/node"
 )
 
+// nolint:structcheck,gocritic
 type Tree[T any] struct {
 	root *node.Node[T]
 }
