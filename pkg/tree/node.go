@@ -1,4 +1,4 @@
-package node
+package tree
 
 import (
 	"fmt"
@@ -6,25 +6,21 @@ import (
 
 // nolint:structcheck,gocritic
 type Node[T any] struct {
-	ID       int
-	Data     T
+	id       int
+	data     T
 	previous *Node[T]
 	nexts    []*Node[T]
 }
 
-func New[T any](id int, data T) *Node[T] {
+func NewNode[T any](id int, data T) *Node[T] {
 	return &Node[T]{
-		ID:   id,
-		Data: data,
+		id:   id,
+		data: data,
 	}
 }
 
-func (n *Node[T]) GetData() T {
-	return n.Data
-}
-
-func (n *Node[T]) GetNexts() []*Node[T] {
-	return n.nexts
+func (n *Node[T]) Get() (int, T) {
+	return n.id, n.data
 }
 
 func (n *Node[T]) IsRoot() bool {
@@ -50,9 +46,9 @@ func (n *Node[T]) Backtrack() []*Node[T] {
 func (n *Node[T]) GetStructure() []string {
 	var structure []string
 	if n.previous == nil {
-		structure = append(structure, fmt.Sprintf("(NULL) -> (%d)", n.ID))
+		structure = append(structure, fmt.Sprintf("(NULL) -> (%d)", n.id))
 	} else {
-		structure = append(structure, fmt.Sprintf("(%d) -> (%d)", n.previous.ID, n.ID))
+		structure = append(structure, fmt.Sprintf("(%d) -> (%d)", n.previous.id, n.id))
 	}
 
 	for _, next := range n.nexts {
