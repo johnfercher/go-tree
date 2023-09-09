@@ -1,4 +1,4 @@
-# Tree
+# go-tree
 
 [![GoDoc](https://godoc.org/github.com/johnfercher/tree?status.svg)](https://godoc.org/github.com/johnfercher/tree)
 [![Go Report Card](https://goreportcard.com/badge/github.com/johnfercher/tree)](https://goreportcard.com/report/github.com/johnfercher/tree)
@@ -13,20 +13,20 @@ A generic unbalanced tree implementation, where you can define which node will b
 * With `go get`:
 
 ```bash
-go get -u github.com/johnfercher/tree
+go get -u github.com/johnfercher/go-tree
 ```
 
 ## Contributing
 
-| Command         | Description                                       | Dependencies                                                  |
-|-----------------|---------------------------------------------------|---------------------------------------------------------------|
-| `make build`    | Build project                                     | `go`                                                          |
-| `make test`     | Run unit tests                                    | `go`                                                          |
-| `make fmt`      | Format files                                      | `gofmt`, `gofumpt` and `goimports`                            |
-| `make lint`     | Check files                                       | `golangci-lint` and `goreportcard-cli`                        |
+| Command         | Description                                      | Dependencies                                                  |
+|-----------------|--------------------------------------------------|---------------------------------------------------------------|
+| `make build`    | Build project                                    | `go`                                                          |
+| `make test`     | Run unit tests                                   | `go`                                                          |
+| `make fmt`      | Format files                                     | `gofmt`, `gofumpt` and `goimports`                            |
+| `make lint`     | Check files                                      | `golangci-lint` and `goreportcard-cli`                        |
 | `make dod`      | (Definition of Done) Format files and check files | Same as `make build`, `make test`, `make fmt` and `make lint` | 
-| `make install`  | Install all dependencies                          | `go`, `curl` and `git`                                        |
-| `make examples` | Run all examples                                  | `go`                                                          |
+| `make install`  | Install all dependencies                         | `go`, `curl` and `git`                                        |
+| `make examples` | Run all examples                                 | `go`                                                          |
 
 ## Features
 ### Node

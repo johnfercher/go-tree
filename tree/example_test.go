@@ -3,7 +3,7 @@ package tree_test
 import (
 	"fmt"
 
-	"github.com/johnfercher/tree/pkg/tree"
+	"github.com/johnfercher/go-tree/tree"
 )
 
 // ExampleNew demonstrates how to create tree.
