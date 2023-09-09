@@ -16,6 +16,37 @@ A generic unbalanced tree implementation, where you can define which node will b
 go get -u github.com/johnfercher/tree
 ```
 
+## Contributing
+
+| Command         | Description                                       | Dependencies                                                 |
+|-----------------|---------------------------------------------------|--------------------------------------------------------------|
+| `make build`    | Build project                                     | `go`                                                         |
+| `make test`     | Run unit tests                                    | `go`                                                         |
+| `make fmt`      | Format files                                      | `gofmt`, `gofumpt` and `goimports`                           |
+| `make lint`     | Check files                                       | `golangci-lint` and `goreportcard-cli`                       |
+| `make dod`      | (Definition of Done) Format files and check files | Same as`make build`, `make test`, `make fmt` and `make lint` | 
+| `make install`  | Install all dependencies                          | `go`, `curl` and `git`                                       |
+| `make examples` | Run all examples                                  | `go`                                                         |
+
+## Features
+### Node
+* [NewNode](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#NewNode)
+* [AddNext](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Node.AddNext)
+* [Backtrack](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Node.Backtrack)
+* [Get](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Node.Get)
+* [GetStructure](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Node.GetStructure)
+* [IsLeaf](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Node.IsLeaf)
+* [IsRoot](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Node.IsLeaf)
+
+### Tree
+* [New](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#New)
+* [Add](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Tree.Add)
+* [AddRoot](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Tree.AddRoot)
+* [Backtrack](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Tree.Backtrack)
+* [Get](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Tree.Get)
+* [GetRoot](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Tree.GetRoot)
+* [GetStructure](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Tree.GetStructure)
+
 ## Example
 
 ```golang
