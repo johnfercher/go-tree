@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/johnfercher/tree/pkg/tree"
+	"github.com/johnfercher/go-tree/tree"
 )
 
 // nolint:gomnd,gocritic

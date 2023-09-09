@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/johnfercher/tree/pkg/tree"
+	"github.com/johnfercher/go-tree/tree"
 	"github.com/stretchr/testify/assert"
 )
 
