@@ -1,14 +1,17 @@
 package tree
 
 // nolint:structcheck,gocritic
+// Tree represents the main entity of the package.
 type Tree[T any] struct {
 	root *Node[T]
 }
 
+// New creates a new Tree.
 func New[T any]() *Tree[T] {
 	return &Tree[T]{}
 }
 
+// AddRoot adds a root node to Tree.
 func (t *Tree[T]) AddRoot(node *Node[T]) (addedRoot bool) {
 	if t.root == nil {
 		t.root = node
@@ -18,6 +21,7 @@ func (t *Tree[T]) AddRoot(node *Node[T]) (addedRoot bool) {
 	return false
 }
 
+// GetRoot retrieves the root node from Tree.
 func (t *Tree[T]) GetRoot() (root *Node[T], hasRoot bool) {
 	if t.root == nil {
 		return nil, false
@@ -26,6 +30,7 @@ func (t *Tree[T]) GetRoot() (root *Node[T], hasRoot bool) {
 	return t.root, true
 }
 
+// Add adds a node into a parent node.
 func (t *Tree[T]) Add(parentID int, node *Node[T]) (addedNode bool) {
 	if t.root == nil {
 		return false
@@ -34,6 +39,7 @@ func (t *Tree[T]) Add(parentID int, node *Node[T]) (addedNode bool) {
 	return t.add(parentID, t.root, node)
 }
 
+// Get retrieves node from Tree.
 func (t *Tree[T]) Get(id int) (node *Node[T], found bool) {
 	if t.root == nil {
 		return nil, false
@@ -46,6 +52,7 @@ func (t *Tree[T]) Get(id int) (node *Node[T], found bool) {
 	return t.get(id, t.root)
 }
 
+// Backtrack retrieves a path from node to root.
 func (t *Tree[T]) Backtrack(id int) ([]*Node[T], bool) {
 	n, found := t.Get(id)
 	if !found {
@@ -55,6 +62,7 @@ func (t *Tree[T]) Backtrack(id int) ([]*Node[T], bool) {
 	return n.Backtrack(), true
 }
 
+// GetStructure retrieves Tree structure
 func (t *Tree[T]) GetStructure() ([]string, bool) {
 	if t.root == nil {
 		return nil, false
