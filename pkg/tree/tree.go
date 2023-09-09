@@ -62,7 +62,7 @@ func (t *Tree[T]) Backtrack(id int) ([]*Node[T], bool) {
 	return n.Backtrack(), true
 }
 
-// GetStructure retrieves Tree structure
+// GetStructure retrieves Tree structure.
 func (t *Tree[T]) GetStructure() ([]string, bool) {
 	if t.root == nil {
 		return nil, false

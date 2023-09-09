@@ -8,6 +8,16 @@
 
 A generic unbalanced tree implementation, where you can define which node will be added to each node.
 
+## Installation
+
+* With `go get`:
+
+```bash
+go get -u github.com/johnfercher/tree
+```
+
+## Example
+
 ```golang
 package main
 
