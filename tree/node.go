@@ -26,6 +26,16 @@ func (n *Node[T]) Get() (int, T) {
 	return n.id, n.data
 }
 
+// GetPrevious retrieves the next nodes.
+func (n *Node[T]) GetPrevious() *Node[T] {
+	return n.previous
+}
+
+// GetNexts retrieves the next nodes.
+func (n *Node[T]) GetNexts() []*Node[T] {
+	return n.nexts
+}
+
 // IsRoot retrieves info if node is root.
 func (n *Node[T]) IsRoot() bool {
 	return n.previous == nil
