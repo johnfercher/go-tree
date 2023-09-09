@@ -1,10 +1,10 @@
 # go-tree
 
-[![GoDoc](https://godoc.org/github.com/johnfercher/tree?status.svg)](https://godoc.org/github.com/johnfercher/tree)
-[![Go Report Card](https://goreportcard.com/badge/github.com/johnfercher/tree)](https://goreportcard.com/report/github.com/johnfercher/tree)
-[![CI](https://github.com/johnfercher/tree/actions/workflows/goci.yml/badge.svg)](https://github.com/johnfercher/tree/actions/workflows/goci.yml)
-[![Lint](https://github.com/johnfercher/tree/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/johnfercher/tree/actions/workflows/golangci-lint.yml)
-[![Codecov](https://codecov.io/gh/johnfercher/tree/branch/main/graph/badge.svg)](https://codecov.io/gh/johnfercher/tree)
+[![GoDoc](https://godoc.org/github.com/johnfercher/go-tree?status.svg)](https://godoc.org/github.com/johnfercher/go-tree)
+[![Go Report Card](https://goreportcard.com/badge/github.com/johnfercher/go-tree)](https://goreportcard.com/report/github.com/johnfercher/go-tree)
+[![CI](https://github.com/johnfercher/go-tree/actions/workflows/goci.yml/badge.svg)](https://github.com/johnfercher/go-tree/actions/workflows/goci.yml)
+[![Lint](https://github.com/johnfercher/go-tree/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/johnfercher/go-tree/actions/workflows/golangci-lint.yml)
+[![Codecov](https://codecov.io/gh/johnfercher/go-tree/branch/main/graph/badge.svg)](https://codecov.io/gh/johnfercher/go-tree)
 
 A generic unbalanced tree implementation, where you can define which node will be added to each node.
 
@@ -30,22 +30,22 @@ go get -u github.com/johnfercher/go-tree
 
 ## Features
 ### Node
-* [NewNode](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#NewNode)
-* [AddNext](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Node.AddNext)
-* [Backtrack](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Node.Backtrack)
-* [Get](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Node.Get)
-* [GetStructure](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Node.GetStructure)
-* [IsLeaf](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Node.IsLeaf)
-* [IsRoot](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Node.IsLeaf)
+* [NewNode](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#NewNode)
+* [AddNext](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.AddNext)
+* [Backtrack](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.Backtrack)
+* [Get](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.Get)
+* [GetStructure](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.GetStructure)
+* [IsLeaf](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.IsLeaf)
+* [IsRoot](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.IsLeaf)
 
 ### Tree
-* [New](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#New)
-* [Add](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Tree.Add)
-* [AddRoot](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Tree.AddRoot)
-* [Backtrack](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Tree.Backtrack)
-* [Get](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Tree.Get)
-* [GetRoot](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Tree.GetRoot)
-* [GetStructure](https://pkg.go.dev/github.com/johnfercher/tree/pkg/tree#Tree.GetStructure)
+* [New](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#New)
+* [Add](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Tree.Add)
+* [AddRoot](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Tree.AddRoot)
+* [Backtrack](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Tree.Backtrack)
+* [Get](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Tree.Get)
+* [GetRoot](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Tree.GetRoot)
+* [GetStructure](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Tree.GetStructure)
 
 ## Example
 
@@ -55,7 +55,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/johnfercher/tree/pkg/tree"
+	"github.com/johnfercher/go-tree/tree"
 )
 
 // nolint:gomnd,gocritic
