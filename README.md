@@ -13,7 +13,7 @@ A generic unbalanced tree implementation, where you can define which node will b
 * With `go get`:
 
 ```bash
-go get -u github.com/johnfercher/tree
+go get -u github.com/johnfercher/go-tree
 ```
 
 ## Contributing
