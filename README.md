@@ -4,8 +4,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/johnfercher/tree)](https://goreportcard.com/report/github.com/johnfercher/tree)
 [![CI](https://github.com/johnfercher/tree/actions/workflows/goci.yml/badge.svg)](https://github.com/johnfercher/tree/actions/workflows/goci.yml)
 [![Lint](https://github.com/johnfercher/tree/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/johnfercher/tree/actions/workflows/golangci-lint.yml)
-[![Codecov](https://img.shields.io/codecov/c/github/johnfercher/tree)](https://codecov.io/gh/johnfercher/tree)
-
+[![Codecov](https://codecov.io/gh/johnfercher/tree/branch/main/graph/badge.svg)](https://codecov.io/gh/johnfercher/tree)
 
 A generic unbalanced tree implementation, where you can define which node will be added to each node.
 
@@ -35,11 +34,11 @@ func main() {
 
 	root, ok := tr.GetRoot()
 	fmt.Println(ok)         // true
-	fmt.Println(root.Get()) // 0.0
+	fmt.Println(root.Get()) // 0, 0.0
 
 	node, ok := tr.Get(3)
 	fmt.Println(ok)         // true
-	fmt.Println(node.Get()) // 1.3
+	fmt.Println(node.Get()) // 3, 1.3
 
 	structure, ok := tr.GetStructure()
 	fmt.Println(ok)        // true
@@ -48,8 +47,7 @@ func main() {
 	nodes, ok := tr.Backtrack(6)
 	fmt.Println(ok) // true
 	for _, node := range nodes {
-		fmt.Println(node.Get()) // 2.6, 0.2, 0.0
+		fmt.Println(node.Get()) // 6, 2.6; 2, 0.2; 0, 0.0
 	}
 }
-
 ```
