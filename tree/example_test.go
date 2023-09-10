@@ -121,6 +121,18 @@ func ExampleNode_Get() {
 	// Do more things
 }
 
+// ExampleNode_GetNexts demonstrates how to retrieve next nodes from node.
+func ExampleNode_GetNexts() {
+	root := tree.NewNode(0, "root")
+	leaf := tree.NewNode(1, "leaf")
+
+	root.AddNext(leaf)
+	nexts := root.GetNexts()
+	fmt.Println(len(nexts))
+
+	// Do more things
+}
+
 // ExampleNode_IsRoot demonstrates how to retrieve info if node is root.
 func ExampleNode_IsRoot() {
 	n := tree.NewNode(0, 'b')
