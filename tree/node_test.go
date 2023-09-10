@@ -45,7 +45,7 @@ func TestNewNode(t *testing.T) {
 	}
 }
 
-func TestNode_GetData(t *testing.T) {
+func TestNode_Get(t *testing.T) {
 	// Arrange
 	sut := tree.NewNode(0, 42)
 
@@ -55,6 +55,37 @@ func TestNode_GetData(t *testing.T) {
 	// Assert
 	assert.Equal(t, 0, id)
 	assert.Equal(t, 42, n)
+}
+
+func TestNode_GetNexts(t *testing.T) {
+	// Arrange
+	sut := tree.NewNode(0, 42)
+	leaf := tree.NewNode(1, 43)
+	sut.AddNext(leaf)
+
+	// Act
+	nexts := sut.GetNexts()
+
+	// Assert
+	assert.Equal(t, 1, len(nexts))
+	id, data := nexts[0].Get()
+	assert.Equal(t, 43, data)
+	assert.Equal(t, 1, id)
+}
+
+func TestNode_GetPrevious(t *testing.T) {
+	// Arrange
+	root := tree.NewNode(0, 42)
+	sut := tree.NewNode(1, 43)
+	root.AddNext(sut)
+
+	// Act
+	previous := sut.GetPrevious()
+
+	// Assert
+	id, data := previous.Get()
+	assert.Equal(t, 42, data)
+	assert.Equal(t, 0, id)
 }
 
 func TestNode_IsRoot(t *testing.T) {
