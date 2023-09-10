@@ -34,6 +34,8 @@ go get -u github.com/johnfercher/go-tree
 * [AddNext](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.AddNext)
 * [Backtrack](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.Backtrack)
 * [Get](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.Get)
+* [GetNexts](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.GetNexts)
+* [GetPrevious](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.GetPrevious)
 * [GetStructure](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.GetStructure)
 * [IsLeaf](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.IsLeaf)
 * [IsRoot](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.IsLeaf)
