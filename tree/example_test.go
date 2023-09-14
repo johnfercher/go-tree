@@ -11,7 +11,7 @@ func ExampleNew() {
 	tr := tree.New[string]()
 
 	// Add nodes do tree
-	tr.AddRoot(tree.NewNode(0, "root"))
+	tr.AddRoot(tree.NewNodeWithID(0, "root"))
 
 	// Do more things
 }
@@ -20,7 +20,7 @@ func ExampleNew() {
 func ExampleTree_AddRoot() {
 	tr := tree.New[int]()
 
-	tr.AddRoot(tree.NewNode(0, 42))
+	tr.AddRoot(tree.NewNodeWithID(0, 42))
 
 	// Do more things
 }
@@ -28,13 +28,13 @@ func ExampleTree_AddRoot() {
 // ExampleTree_GetRoot demonstrates how to retrieve root node from tree.
 func ExampleTree_GetRoot() {
 	tr := tree.New[float64]()
-	tr.AddRoot(tree.NewNode(0, 3.14))
+	tr.AddRoot(tree.NewNodeWithID(0, 3.14))
 
 	node, ok := tr.GetRoot()
 	if !ok {
 		return
 	}
-	fmt.Println(node.Get())
+	fmt.Println(node.GetData())
 
 	// Do more things
 }
@@ -42,9 +42,9 @@ func ExampleTree_GetRoot() {
 // ExampleTree_Add demonstrates how to add node to tree.
 func ExampleTree_Add() {
 	tr := tree.New[bool]()
-	tr.AddRoot(tree.NewNode(0, true))
+	tr.AddRoot(tree.NewNodeWithID(0, true))
 
-	tr.Add(0, tree.NewNode(1, false))
+	tr.Add(0, tree.NewNodeWithID(1, false))
 
 	// Do more things
 }
@@ -52,13 +52,13 @@ func ExampleTree_Add() {
 // ExampleTree_Get demonstrates how to retrieve node from tree.
 func ExampleTree_Get() {
 	tr := tree.New[uint]()
-	tr.AddRoot(tree.NewNode(0, uint(42)))
+	tr.AddRoot(tree.NewNodeWithID(0, uint(42)))
 
 	node, ok := tr.Get(0)
 	if !ok {
 		return
 	}
-	fmt.Println(node.Get())
+	fmt.Println(node.GetData())
 
 	// Do more things
 }
@@ -66,17 +66,17 @@ func ExampleTree_Get() {
 // ExampleTree_Backtrack demonstrates how to retrieve path of nodes from node to root.
 func ExampleTree_Backtrack() {
 	tr := tree.New[string]()
-	tr.AddRoot(tree.NewNode(0, "root"))
-	tr.Add(0, tree.NewNode(1, "level1"))
-	tr.Add(1, tree.NewNode(2, "level2"))
-	tr.Add(2, tree.NewNode(3, "leaf"))
+	tr.AddRoot(tree.NewNodeWithID(0, "root"))
+	tr.Add(0, tree.NewNodeWithID(1, "level1"))
+	tr.Add(1, tree.NewNodeWithID(2, "level2"))
+	tr.Add(2, tree.NewNodeWithID(3, "leaf"))
 
 	nodes, ok := tr.Backtrack(3)
 	if !ok {
 		return
 	}
 	for _, node := range nodes {
-		fmt.Println(node.Get())
+		fmt.Println(node.GetData())
 	}
 
 	// Do more things
@@ -85,10 +85,10 @@ func ExampleTree_Backtrack() {
 // ExampleTree_GetStructure demonstrates how to retrieve tree structure.
 func ExampleTree_GetStructure() {
 	tr := tree.New[string]()
-	tr.AddRoot(tree.NewNode(0, "root"))
-	tr.Add(0, tree.NewNode(1, "level1"))
-	tr.Add(1, tree.NewNode(2, "level2"))
-	tr.Add(2, tree.NewNode(3, "leaf"))
+	tr.AddRoot(tree.NewNodeWithID(0, "root"))
+	tr.Add(0, tree.NewNodeWithID(1, "level1"))
+	tr.Add(1, tree.NewNodeWithID(2, "level2"))
+	tr.Add(2, tree.NewNodeWithID(3, "leaf"))
 
 	structure, ok := tr.GetStructure()
 	if !ok {
@@ -101,30 +101,48 @@ func ExampleTree_GetStructure() {
 	// Do more things
 }
 
-// ExampleNewNode demonstrates how to create a node.
-func ExampleNewNode() {
-	n := tree.NewNode(0, "node")
+// NewNodeWithID demonstrates how to create a node with ID.
+func ExampleNewNodeWithID() {
+	n := tree.NewNodeWithID(0, "node")
 
-	n.Get()
+	n.GetData()
 
 	// Do more things
 }
 
-// ExampleNode_Get demonstrates how to retrieve id and data from node.
-func ExampleNode_Get() {
-	n := tree.NewNode(0, 3.14)
+// ExampleNewNode demonstrates how to create a node.
+func ExampleNewNode() {
+	n := tree.NewNode("node")
 
-	id, data := n.Get()
-	fmt.Println(id)
+	n.GetData()
+
+	// Do more things
+}
+
+// ExampleNode_GetData demonstrates how to retrieve data from node.
+func ExampleNode_GetData() {
+	n := tree.NewNodeWithID(0, 3.14)
+
+	data := n.GetData()
 	fmt.Println(data)
+
+	// Do more things
+}
+
+// ExampleNode_GetID demonstrates how to retrieve id from node.
+func ExampleNode_GetID() {
+	n := tree.NewNodeWithID(0, 3.14)
+
+	id := n.GetID()
+	fmt.Println(id)
 
 	// Do more things
 }
 
 // ExampleNode_GetNexts demonstrates how to retrieve next nodes from node.
 func ExampleNode_GetNexts() {
-	root := tree.NewNode(0, "root")
-	leaf := tree.NewNode(1, "leaf")
+	root := tree.NewNodeWithID(0, "root")
+	leaf := tree.NewNodeWithID(1, "leaf")
 
 	root.AddNext(leaf)
 	nexts := root.GetNexts()
@@ -135,19 +153,19 @@ func ExampleNode_GetNexts() {
 
 // ExampleNode_GetPrevious demonstrates how to retrieve next nodes from node.
 func ExampleNode_GetPrevious() {
-	root := tree.NewNode(0, "root")
-	leaf := tree.NewNode(1, "leaf")
+	root := tree.NewNodeWithID(0, "root")
+	leaf := tree.NewNodeWithID(1, "leaf")
 
 	root.AddNext(leaf)
 	previous := leaf.GetPrevious()
-	fmt.Println(previous.Get())
+	fmt.Println(previous.GetData())
 
 	// Do more things
 }
 
 // ExampleNode_IsRoot demonstrates how to retrieve info if node is root.
 func ExampleNode_IsRoot() {
-	n := tree.NewNode(0, 'b')
+	n := tree.NewNodeWithID(0, 'b')
 
 	root := n.IsRoot()
 	fmt.Println(root)
@@ -157,8 +175,8 @@ func ExampleNode_IsRoot() {
 
 // ExampleNode_IsLeaf demonstrates how to retrieve info if node is leaf.
 func ExampleNode_IsLeaf() {
-	n1 := tree.NewNode(0, 'a')
-	n2 := tree.NewNode(0, 'b')
+	n1 := tree.NewNodeWithID(0, 'a')
+	n2 := tree.NewNodeWithID(0, 'b')
 
 	n1.AddNext(n2)
 
@@ -170,16 +188,16 @@ func ExampleNode_IsLeaf() {
 
 // ExampleNode_Backtrack demonstrates how to retrieve the path between node to root.
 func ExampleNode_Backtrack() {
-	n1 := tree.NewNode(0, 'a')
-	n2 := tree.NewNode(0, 'b')
-	n3 := tree.NewNode(0, 'c')
+	n1 := tree.NewNodeWithID(0, 'a')
+	n2 := tree.NewNodeWithID(0, 'b')
+	n3 := tree.NewNodeWithID(0, 'c')
 
 	n1.AddNext(n2)
 	n2.AddNext(n3)
 
 	nodes := n3.Backtrack()
 	for _, node := range nodes {
-		fmt.Println(node.Get())
+		fmt.Println(node.GetData())
 	}
 
 	// Do more things
@@ -187,9 +205,9 @@ func ExampleNode_Backtrack() {
 
 // ExampleNode_GetStructure demonstrates how to retrieve the tree structure from node.
 func ExampleNode_GetStructure() {
-	n1 := tree.NewNode(0, 'a')
-	n2 := tree.NewNode(0, 'b')
-	n3 := tree.NewNode(0, 'c')
+	n1 := tree.NewNodeWithID(0, 'a')
+	n2 := tree.NewNodeWithID(0, 'b')
+	n3 := tree.NewNodeWithID(0, 'c')
 
 	n1.AddNext(n2)
 	n2.AddNext(n3)
@@ -204,8 +222,8 @@ func ExampleNode_GetStructure() {
 
 // ExampleNode_AddNext demonstrates how to add a node to a parent.
 func ExampleNode_AddNext() {
-	n1 := tree.NewNode(0, 'a')
-	n2 := tree.NewNode(0, 'b')
+	n1 := tree.NewNodeWithID(0, 'a')
+	n2 := tree.NewNodeWithID(0, 'b')
 
 	n1.AddNext(n2)
 

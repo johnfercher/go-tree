@@ -33,8 +33,40 @@ func TestNewNode(t *testing.T) {
 
 	for i, element := range elements {
 		// Act
-		sut := tree.NewNode(0, element)
-		id, data := sut.Get()
+		sut := tree.NewNode(element)
+		data := sut.GetData()
+
+		// Assert
+		assert.NotNil(t, sut)
+		assert.Equal(t, "*tree.Node[interface {}]", fmt.Sprintf("%T", sut))
+		assert.Equal(t, element, data)
+		assert.Equal(t, types[i], fmt.Sprintf("%T", data))
+	}
+}
+
+func TestNewNodeWithID(t *testing.T) {
+	// Arrange
+	elements := []interface{}{
+		true,
+		42,
+		3.14,
+		"string1",
+		&anyType{Value: "string2"},
+	}
+
+	types := []interface{}{
+		"bool",
+		"int",
+		"float64",
+		"string",
+		"*tree_test.anyType",
+	}
+
+	for i, element := range elements {
+		// Act
+		sut := tree.NewNodeWithID(0, element)
+		id := sut.GetID()
+		data := sut.GetData()
 
 		// Assert
 		assert.NotNil(t, sut)
@@ -47,20 +79,21 @@ func TestNewNode(t *testing.T) {
 
 func TestNode_Get(t *testing.T) {
 	// Arrange
-	sut := tree.NewNode(0, 42)
+	sut := tree.NewNodeWithID(0, 42)
 
 	// Act
-	id, n := sut.Get()
+	id := sut.GetID()
+	data := sut.GetData()
 
 	// Assert
 	assert.Equal(t, 0, id)
-	assert.Equal(t, 42, n)
+	assert.Equal(t, 42, data)
 }
 
 func TestNode_GetNexts(t *testing.T) {
 	// Arrange
-	sut := tree.NewNode(0, 42)
-	leaf := tree.NewNode(1, 43)
+	sut := tree.NewNodeWithID(0, 42)
+	leaf := tree.NewNodeWithID(1, 43)
 	sut.AddNext(leaf)
 
 	// Act
@@ -68,31 +101,33 @@ func TestNode_GetNexts(t *testing.T) {
 
 	// Assert
 	assert.Equal(t, 1, len(nexts))
-	id, data := nexts[0].Get()
+	id := nexts[0].GetID()
+	data := nexts[0].GetData()
 	assert.Equal(t, 43, data)
 	assert.Equal(t, 1, id)
 }
 
 func TestNode_GetPrevious(t *testing.T) {
 	// Arrange
-	root := tree.NewNode(0, 42)
-	sut := tree.NewNode(1, 43)
+	root := tree.NewNodeWithID(0, 42)
+	sut := tree.NewNodeWithID(1, 43)
 	root.AddNext(sut)
 
 	// Act
 	previous := sut.GetPrevious()
 
 	// Assert
-	id, data := previous.Get()
+	id := previous.GetID()
+	data := previous.GetData()
 	assert.Equal(t, 42, data)
 	assert.Equal(t, 0, id)
 }
 
 func TestNode_IsRoot(t *testing.T) {
 	// Arrange
-	root := tree.NewNode(0, 42)
-	anyNode := tree.NewNode(1, 43)
-	leaf := tree.NewNode(2, 44)
+	root := tree.NewNodeWithID(0, 42)
+	anyNode := tree.NewNodeWithID(1, 43)
+	leaf := tree.NewNodeWithID(2, 44)
 
 	root.AddNext(anyNode)
 	anyNode.AddNext(leaf)
@@ -110,9 +145,9 @@ func TestNode_IsRoot(t *testing.T) {
 
 func TestNode_IsLeaf(t *testing.T) {
 	// Arrange
-	root := tree.NewNode(0, 42)
-	anyNode := tree.NewNode(1, 43)
-	leaf := tree.NewNode(2, 44)
+	root := tree.NewNodeWithID(0, 42)
+	anyNode := tree.NewNodeWithID(1, 43)
+	leaf := tree.NewNodeWithID(2, 44)
 
 	root.AddNext(anyNode)
 	anyNode.AddNext(leaf)
@@ -130,9 +165,9 @@ func TestNode_IsLeaf(t *testing.T) {
 
 func TestNode_Backtrack_WhenBuildManually_ShouldReturnCorrectly(t *testing.T) {
 	// Arrange
-	root := tree.NewNode(0, 42)
-	anyNode := tree.NewNode(1, 43)
-	leaf := tree.NewNode(2, 44)
+	root := tree.NewNodeWithID(0, 42)
+	anyNode := tree.NewNodeWithID(1, 43)
+	leaf := tree.NewNodeWithID(2, 44)
 
 	root.AddNext(anyNode)
 	anyNode.AddNext(leaf)
@@ -152,27 +187,28 @@ func TestNode_Backtrack_WhenBuildByTree_ShouldReturnCorrectly(t *testing.T) {
 	// Arrange
 	tr := tree.New[string]()
 
-	tr.AddRoot(tree.NewNode(0, "0.0"))
-	tr.Add(0, tree.NewNode(1, "1.0"))
-	tr.Add(0, tree.NewNode(2, "1.1"))
-	tr.Add(0, tree.NewNode(3, "1.2"))
-	tr.Add(1, tree.NewNode(4, "2.0"))
-	tr.Add(1, tree.NewNode(5, "2.1"))
-	tr.Add(1, tree.NewNode(6, "2.2"))
-	tr.Add(2, tree.NewNode(7, "2.0"))
-	tr.Add(2, tree.NewNode(8, "2.1"))
-	tr.Add(2, tree.NewNode(9, "2.2"))
-	tr.Add(3, tree.NewNode(10, "3.0"))
-	tr.Add(3, tree.NewNode(11, "3.1"))
-	tr.Add(3, tree.NewNode(12, "3.2"))
-	tr.Add(4, tree.NewNode(13, "4.0"))
+	tr.AddRoot(tree.NewNodeWithID(0, "0.0"))
+	tr.Add(0, tree.NewNodeWithID(1, "1.0"))
+	tr.Add(0, tree.NewNodeWithID(2, "1.1"))
+	tr.Add(0, tree.NewNodeWithID(3, "1.2"))
+	tr.Add(1, tree.NewNodeWithID(4, "2.0"))
+	tr.Add(1, tree.NewNodeWithID(5, "2.1"))
+	tr.Add(1, tree.NewNodeWithID(6, "2.2"))
+	tr.Add(2, tree.NewNodeWithID(7, "2.0"))
+	tr.Add(2, tree.NewNodeWithID(8, "2.1"))
+	tr.Add(2, tree.NewNodeWithID(9, "2.2"))
+	tr.Add(3, tree.NewNodeWithID(10, "3.0"))
+	tr.Add(3, tree.NewNodeWithID(11, "3.1"))
+	tr.Add(3, tree.NewNodeWithID(12, "3.2"))
+	tr.Add(4, tree.NewNodeWithID(13, "4.0"))
 
 	// Act & Assert
 	// Case 0
 	anyNode, _ := tr.Get(0)
 	backtracked := anyNode.Backtrack()
 	assert.Equal(t, 1, len(backtracked))
-	id, data := backtracked[0].Get()
+	id := backtracked[0].GetID()
+	data := backtracked[0].GetData()
 	assert.Equal(t, 0, id)
 	assert.Equal(t, "0.0", data)
 
@@ -180,10 +216,12 @@ func TestNode_Backtrack_WhenBuildByTree_ShouldReturnCorrectly(t *testing.T) {
 	anyNode, _ = tr.Get(1)
 	backtracked = anyNode.Backtrack()
 	assert.Equal(t, 2, len(backtracked))
-	id, data = backtracked[0].Get()
+	id = backtracked[0].GetID()
+	data = backtracked[0].GetData()
 	assert.Equal(t, 1, id)
 	assert.Equal(t, "1.0", data)
-	id, data = backtracked[1].Get()
+	id = backtracked[1].GetID()
+	data = backtracked[1].GetData()
 	assert.Equal(t, 0, id)
 	assert.Equal(t, "0.0", data)
 
@@ -191,10 +229,12 @@ func TestNode_Backtrack_WhenBuildByTree_ShouldReturnCorrectly(t *testing.T) {
 	anyNode, _ = tr.Get(2)
 	backtracked = anyNode.Backtrack()
 	assert.Equal(t, 2, len(backtracked))
-	id, data = backtracked[0].Get()
+	id = backtracked[0].GetID()
+	data = backtracked[0].GetData()
 	assert.Equal(t, 2, id)
 	assert.Equal(t, "1.1", data)
-	id, data = backtracked[1].Get()
+	id = backtracked[1].GetID()
+	data = backtracked[1].GetData()
 	assert.Equal(t, 0, id)
 	assert.Equal(t, "0.0", data)
 
@@ -202,10 +242,12 @@ func TestNode_Backtrack_WhenBuildByTree_ShouldReturnCorrectly(t *testing.T) {
 	anyNode, _ = tr.Get(3)
 	backtracked = anyNode.Backtrack()
 	assert.Equal(t, 2, len(backtracked))
-	id, data = backtracked[0].Get()
+	id = backtracked[0].GetID()
+	data = backtracked[0].GetData()
 	assert.Equal(t, 3, id)
 	assert.Equal(t, "1.2", data)
-	id, data = backtracked[1].Get()
+	id = backtracked[1].GetID()
+	data = backtracked[1].GetData()
 	assert.Equal(t, 0, id)
 	assert.Equal(t, "0.0", data)
 
@@ -213,13 +255,16 @@ func TestNode_Backtrack_WhenBuildByTree_ShouldReturnCorrectly(t *testing.T) {
 	anyNode, _ = tr.Get(4)
 	backtracked = anyNode.Backtrack()
 	assert.Equal(t, 3, len(backtracked))
-	id, data = backtracked[0].Get()
+	id = backtracked[0].GetID()
+	data = backtracked[0].GetData()
 	assert.Equal(t, 4, id)
 	assert.Equal(t, "2.0", data)
-	id, data = backtracked[1].Get()
+	id = backtracked[1].GetID()
+	data = backtracked[1].GetData()
 	assert.Equal(t, 1, id)
 	assert.Equal(t, "1.0", data)
-	id, data = backtracked[2].Get()
+	id = backtracked[2].GetID()
+	data = backtracked[2].GetData()
 	assert.Equal(t, 0, id)
 	assert.Equal(t, "0.0", data)
 
@@ -227,13 +272,16 @@ func TestNode_Backtrack_WhenBuildByTree_ShouldReturnCorrectly(t *testing.T) {
 	anyNode, _ = tr.Get(5)
 	backtracked = anyNode.Backtrack()
 	assert.Equal(t, 3, len(backtracked))
-	id, data = backtracked[0].Get()
+	id = backtracked[0].GetID()
+	data = backtracked[0].GetData()
 	assert.Equal(t, 5, id)
 	assert.Equal(t, "2.1", data)
-	id, data = backtracked[1].Get()
+	id = backtracked[1].GetID()
+	data = backtracked[1].GetData()
 	assert.Equal(t, 1, id)
 	assert.Equal(t, "1.0", data)
-	id, data = backtracked[2].Get()
+	id = backtracked[2].GetID()
+	data = backtracked[2].GetData()
 	assert.Equal(t, 0, id)
 	assert.Equal(t, "0.0", data)
 
@@ -241,13 +289,16 @@ func TestNode_Backtrack_WhenBuildByTree_ShouldReturnCorrectly(t *testing.T) {
 	anyNode, _ = tr.Get(6)
 	backtracked = anyNode.Backtrack()
 	assert.Equal(t, 3, len(backtracked))
-	id, data = backtracked[0].Get()
+	id = backtracked[0].GetID()
+	data = backtracked[0].GetData()
 	assert.Equal(t, 6, id)
 	assert.Equal(t, "2.2", data)
-	id, data = backtracked[1].Get()
+	id = backtracked[1].GetID()
+	data = backtracked[1].GetData()
 	assert.Equal(t, 1, id)
 	assert.Equal(t, "1.0", data)
-	id, data = backtracked[2].Get()
+	id = backtracked[2].GetID()
+	data = backtracked[2].GetData()
 	assert.Equal(t, 0, id)
 	assert.Equal(t, "0.0", data)
 
@@ -255,13 +306,16 @@ func TestNode_Backtrack_WhenBuildByTree_ShouldReturnCorrectly(t *testing.T) {
 	anyNode, _ = tr.Get(7)
 	backtracked = anyNode.Backtrack()
 	assert.Equal(t, 3, len(backtracked))
-	id, data = backtracked[0].Get()
+	id = backtracked[0].GetID()
+	data = backtracked[0].GetData()
 	assert.Equal(t, 7, id)
 	assert.Equal(t, "2.0", data)
-	id, data = backtracked[1].Get()
+	id = backtracked[1].GetID()
+	data = backtracked[1].GetData()
 	assert.Equal(t, 2, id)
 	assert.Equal(t, "1.1", data)
-	id, data = backtracked[2].Get()
+	id = backtracked[2].GetID()
+	data = backtracked[2].GetData()
 	assert.Equal(t, 0, id)
 	assert.Equal(t, "0.0", data)
 
@@ -269,13 +323,16 @@ func TestNode_Backtrack_WhenBuildByTree_ShouldReturnCorrectly(t *testing.T) {
 	anyNode, _ = tr.Get(8)
 	backtracked = anyNode.Backtrack()
 	assert.Equal(t, 3, len(backtracked))
-	id, data = backtracked[0].Get()
+	id = backtracked[0].GetID()
+	data = backtracked[0].GetData()
 	assert.Equal(t, 8, id)
 	assert.Equal(t, "2.1", data)
-	id, data = backtracked[1].Get()
+	id = backtracked[1].GetID()
+	data = backtracked[1].GetData()
 	assert.Equal(t, 2, id)
 	assert.Equal(t, "1.1", data)
-	id, data = backtracked[2].Get()
+	id = backtracked[2].GetID()
+	data = backtracked[2].GetData()
 	assert.Equal(t, 0, id)
 	assert.Equal(t, "0.0", data)
 
@@ -283,13 +340,16 @@ func TestNode_Backtrack_WhenBuildByTree_ShouldReturnCorrectly(t *testing.T) {
 	anyNode, _ = tr.Get(9)
 	backtracked = anyNode.Backtrack()
 	assert.Equal(t, 3, len(backtracked))
-	id, data = backtracked[0].Get()
+	id = backtracked[0].GetID()
+	data = backtracked[0].GetData()
 	assert.Equal(t, 9, id)
 	assert.Equal(t, "2.2", data)
-	id, data = backtracked[1].Get()
+	id = backtracked[1].GetID()
+	data = backtracked[1].GetData()
 	assert.Equal(t, 2, id)
 	assert.Equal(t, "1.1", data)
-	id, data = backtracked[2].Get()
+	id = backtracked[2].GetID()
+	data = backtracked[2].GetData()
 	assert.Equal(t, 0, id)
 	assert.Equal(t, "0.0", data)
 
@@ -297,13 +357,16 @@ func TestNode_Backtrack_WhenBuildByTree_ShouldReturnCorrectly(t *testing.T) {
 	anyNode, _ = tr.Get(10)
 	backtracked = anyNode.Backtrack()
 	assert.Equal(t, 3, len(backtracked))
-	id, data = backtracked[0].Get()
+	id = backtracked[0].GetID()
+	data = backtracked[0].GetData()
 	assert.Equal(t, 10, id)
 	assert.Equal(t, "3.0", data)
-	id, data = backtracked[1].Get()
+	id = backtracked[1].GetID()
+	data = backtracked[1].GetData()
 	assert.Equal(t, 3, id)
 	assert.Equal(t, "1.2", data)
-	id, data = backtracked[2].Get()
+	id = backtracked[2].GetID()
+	data = backtracked[2].GetData()
 	assert.Equal(t, 0, id)
 	assert.Equal(t, "0.0", data)
 
@@ -311,13 +374,16 @@ func TestNode_Backtrack_WhenBuildByTree_ShouldReturnCorrectly(t *testing.T) {
 	anyNode, _ = tr.Get(11)
 	backtracked = anyNode.Backtrack()
 	assert.Equal(t, 3, len(backtracked))
-	id, data = backtracked[0].Get()
+	id = backtracked[0].GetID()
+	data = backtracked[0].GetData()
 	assert.Equal(t, 11, id)
 	assert.Equal(t, "3.1", data)
-	id, data = backtracked[1].Get()
+	id = backtracked[1].GetID()
+	data = backtracked[1].GetData()
 	assert.Equal(t, 3, id)
 	assert.Equal(t, "1.2", data)
-	id, data = backtracked[2].Get()
+	id = backtracked[2].GetID()
+	data = backtracked[2].GetData()
 	assert.Equal(t, 0, id)
 	assert.Equal(t, "0.0", data)
 
@@ -325,13 +391,16 @@ func TestNode_Backtrack_WhenBuildByTree_ShouldReturnCorrectly(t *testing.T) {
 	anyNode, _ = tr.Get(12)
 	backtracked = anyNode.Backtrack()
 	assert.Equal(t, 3, len(backtracked))
-	id, data = backtracked[0].Get()
+	id = backtracked[0].GetID()
+	data = backtracked[0].GetData()
 	assert.Equal(t, 12, id)
 	assert.Equal(t, "3.2", data)
-	id, data = backtracked[1].Get()
+	id = backtracked[1].GetID()
+	data = backtracked[1].GetData()
 	assert.Equal(t, 3, id)
 	assert.Equal(t, "1.2", data)
-	id, data = backtracked[2].Get()
+	id = backtracked[2].GetID()
+	data = backtracked[2].GetData()
 	assert.Equal(t, 0, id)
 	assert.Equal(t, "0.0", data)
 
@@ -339,16 +408,20 @@ func TestNode_Backtrack_WhenBuildByTree_ShouldReturnCorrectly(t *testing.T) {
 	anyNode, _ = tr.Get(13)
 	backtracked = anyNode.Backtrack()
 	assert.Equal(t, 4, len(backtracked))
-	id, data = backtracked[0].Get()
+	id = backtracked[0].GetID()
+	data = backtracked[0].GetData()
 	assert.Equal(t, 13, id)
 	assert.Equal(t, "4.0", data)
-	id, data = backtracked[1].Get()
+	id = backtracked[1].GetID()
+	data = backtracked[1].GetData()
 	assert.Equal(t, 4, id)
 	assert.Equal(t, "2.0", data)
-	id, data = backtracked[2].Get()
+	id = backtracked[2].GetID()
+	data = backtracked[2].GetData()
 	assert.Equal(t, 1, id)
 	assert.Equal(t, "1.0", data)
-	id, data = backtracked[3].Get()
+	id = backtracked[3].GetID()
+	data = backtracked[3].GetData()
 	assert.Equal(t, 0, id)
 	assert.Equal(t, "0.0", data)
 }
@@ -357,20 +430,20 @@ func TestNode_GetStructure(t *testing.T) {
 	// Arrange
 	tr := tree.New[string]()
 
-	tr.AddRoot(tree.NewNode(0, "0.0"))
-	tr.Add(0, tree.NewNode(1, "1.0"))
-	tr.Add(0, tree.NewNode(2, "1.1"))
-	tr.Add(0, tree.NewNode(3, "1.2"))
-	tr.Add(1, tree.NewNode(4, "2.0"))
-	tr.Add(1, tree.NewNode(5, "2.1"))
-	tr.Add(1, tree.NewNode(6, "2.2"))
-	tr.Add(2, tree.NewNode(7, "2.0"))
-	tr.Add(2, tree.NewNode(8, "2.1"))
-	tr.Add(2, tree.NewNode(9, "2.2"))
-	tr.Add(3, tree.NewNode(10, "3.0"))
-	tr.Add(3, tree.NewNode(11, "3.1"))
-	tr.Add(3, tree.NewNode(12, "3.2"))
-	tr.Add(4, tree.NewNode(13, "4.0"))
+	tr.AddRoot(tree.NewNodeWithID(0, "0.0"))
+	tr.Add(0, tree.NewNodeWithID(1, "1.0"))
+	tr.Add(0, tree.NewNodeWithID(2, "1.1"))
+	tr.Add(0, tree.NewNodeWithID(3, "1.2"))
+	tr.Add(1, tree.NewNodeWithID(4, "2.0"))
+	tr.Add(1, tree.NewNodeWithID(5, "2.1"))
+	tr.Add(1, tree.NewNodeWithID(6, "2.2"))
+	tr.Add(2, tree.NewNodeWithID(7, "2.0"))
+	tr.Add(2, tree.NewNodeWithID(8, "2.1"))
+	tr.Add(2, tree.NewNodeWithID(9, "2.2"))
+	tr.Add(3, tree.NewNodeWithID(10, "3.0"))
+	tr.Add(3, tree.NewNodeWithID(11, "3.1"))
+	tr.Add(3, tree.NewNodeWithID(12, "3.2"))
+	tr.Add(4, tree.NewNodeWithID(13, "4.0"))
 
 	node, _ := tr.Get(0)
 

@@ -14,16 +14,28 @@ type Node[T any] struct {
 }
 
 // NewNode creates a new node.
-func NewNode[T any](id int, data T) *Node[T] {
+func NewNode[T any](data T) *Node[T] {
+	return &Node[T]{
+		data: data,
+	}
+}
+
+// NewNodeWithID creates a new node with ID.
+func NewNodeWithID[T any](id int, data T) *Node[T] {
 	return &Node[T]{
 		id:   id,
 		data: data,
 	}
 }
 
-// Get retrieves id and data from node.
-func (n *Node[T]) Get() (int, T) {
-	return n.id, n.data
+// GetData retrieves data from node.
+func (n *Node[T]) GetData() T {
+	return n.data
+}
+
+// GetID retrieves id from node.
+func (n *Node[T]) GetID() int {
+	return n.id
 }
 
 // GetPrevious retrieves the next nodes.
