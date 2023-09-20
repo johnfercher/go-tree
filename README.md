@@ -5,6 +5,8 @@
 [![CI](https://github.com/johnfercher/go-tree/actions/workflows/goci.yml/badge.svg)](https://github.com/johnfercher/go-tree/actions/workflows/goci.yml)
 [![Lint](https://github.com/johnfercher/go-tree/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/johnfercher/go-tree/actions/workflows/golangci-lint.yml)
 [![Codecov](https://codecov.io/gh/johnfercher/go-tree/branch/main/graph/badge.svg)](https://codecov.io/gh/johnfercher/go-tree)
+[![Visits Badge](https://badges.pufler.dev/visits/johnfercher/go-tree)](https://badges.pufler.dev)
+
 
 A generic unbalanced tree implementation, where you can define which node will be added to each node.
 
