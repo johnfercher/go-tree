@@ -1,9 +1,11 @@
 package tree
 
+import "github.com/johnfercher/go-tree/node"
+
 // nolint:structcheck,gocritic
 // Tree represents the main entity of the package.
 type Tree[T any] struct {
-	root *Node[T]
+	root *node.Node[T]
 }
 
 // New creates a new Tree.
@@ -12,9 +14,9 @@ func New[T any]() *Tree[T] {
 }
 
 // AddRoot adds a root node to Tree.
-func (t *Tree[T]) AddRoot(node *Node[T]) (addedRoot bool) {
+func (t *Tree[T]) AddRoot(n *node.Node[T]) (addedRoot bool) {
 	if t.root == nil {
-		t.root = node
+		t.root = n
 		return true
 	}
 
@@ -22,7 +24,7 @@ func (t *Tree[T]) AddRoot(node *Node[T]) (addedRoot bool) {
 }
 
 // GetRoot retrieves the root node from Tree.
-func (t *Tree[T]) GetRoot() (root *Node[T], hasRoot bool) {
+func (t *Tree[T]) GetRoot() (root *node.Node[T], hasRoot bool) {
 	if t.root == nil {
 		return nil, false
 	}
@@ -31,7 +33,7 @@ func (t *Tree[T]) GetRoot() (root *Node[T], hasRoot bool) {
 }
 
 // Add adds a node into a parent node.
-func (t *Tree[T]) Add(parentID int, node *Node[T]) (addedNode bool) {
+func (t *Tree[T]) Add(parentID int, node *node.Node[T]) (addedNode bool) {
 	if t.root == nil {
 		return false
 	}
@@ -40,12 +42,12 @@ func (t *Tree[T]) Add(parentID int, node *Node[T]) (addedNode bool) {
 }
 
 // Get retrieves node from Tree.
-func (t *Tree[T]) Get(id int) (node *Node[T], found bool) {
+func (t *Tree[T]) Get(id int) (node *node.Node[T], found bool) {
 	if t.root == nil {
 		return nil, false
 	}
 
-	if t.root.id == id {
+	if t.root.GetID() == id {
 		return t.root, true
 	}
 
@@ -53,7 +55,7 @@ func (t *Tree[T]) Get(id int) (node *Node[T], found bool) {
 }
 
 // Backtrack retrieves a path from node to root.
-func (t *Tree[T]) Backtrack(id int) ([]*Node[T], bool) {
+func (t *Tree[T]) Backtrack(id int) ([]*node.Node[T], bool) {
 	n, found := t.Get(id)
 	if !found {
 		return nil, found
@@ -71,13 +73,13 @@ func (t *Tree[T]) GetStructure() ([]string, bool) {
 	return t.root.GetStructure(), true
 }
 
-func (t *Tree[T]) add(parentID int, parentNode *Node[T], newNode *Node[T]) bool {
-	if parentID == parentNode.id {
+func (t *Tree[T]) add(parentID int, parentNode *node.Node[T], newNode *node.Node[T]) bool {
+	if parentID == parentNode.GetID() {
 		parentNode.AddNext(newNode)
 		return true
 	}
 
-	for _, next := range parentNode.nexts {
+	for _, next := range parentNode.GetNexts() {
 		added := t.add(parentID, next, newNode)
 		if added {
 			return true
@@ -87,9 +89,9 @@ func (t *Tree[T]) add(parentID int, parentNode *Node[T], newNode *Node[T]) bool 
 	return false
 }
 
-func (t *Tree[T]) get(id int, parent *Node[T]) (*Node[T], bool) {
-	for _, next := range parent.nexts {
-		if next.id == id {
+func (t *Tree[T]) get(id int, parent *node.Node[T]) (*node.Node[T], bool) {
+	for _, next := range parent.GetNexts() {
+		if next.GetID() == id {
 			return next, true
 		}
 

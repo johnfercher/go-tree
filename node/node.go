@@ -1,4 +1,4 @@
-package tree
+package node
 
 import (
 	"fmt"
@@ -13,19 +13,17 @@ type Node[T any] struct {
 	nexts    []*Node[T]
 }
 
-// NewNode creates a new node.
-func NewNode[T any](data T) *Node[T] {
+// New creates a new node.
+func New[T any](data T) *Node[T] {
 	return &Node[T]{
 		data: data,
 	}
 }
 
-// NewNodeWithID creates a new node with ID.
-func NewNodeWithID[T any](id int, data T) *Node[T] {
-	return &Node[T]{
-		id:   id,
-		data: data,
-	}
+// WithID retrieves data from node.
+func (n *Node[T]) WithID(id int) *Node[T] {
+	n.id = id
+	return n
 }
 
 // GetData retrieves data from node.
