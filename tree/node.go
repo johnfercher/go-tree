@@ -20,12 +20,10 @@ func NewNode[T any](data T) *Node[T] {
 	}
 }
 
-// NewNodeWithID creates a new node with ID.
-func NewNodeWithID[T any](id int, data T) *Node[T] {
-	return &Node[T]{
-		id:   id,
-		data: data,
-	}
+// WithID retrieves data from node.
+func (n *Node[T]) WithID(id int) *Node[T] {
+	n.id = id
+	return n
 }
 
 // GetData retrieves data from node.
