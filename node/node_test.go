@@ -1,7 +1,8 @@
-package tree_test
+package node_test
 
 import (
 	"fmt"
+	"github.com/johnfercher/go-tree/node"
 	"testing"
 
 	"github.com/johnfercher/go-tree/tree"
@@ -28,17 +29,17 @@ func TestNewNode(t *testing.T) {
 		"int",
 		"float64",
 		"string",
-		"*tree_test.anyType",
+		"*node_test.anyType",
 	}
 
 	for i, element := range elements {
 		// Act
-		sut := tree.NewNode(element)
+		sut := node.New(element)
 		data := sut.GetData()
 
 		// Assert
 		assert.NotNil(t, sut)
-		assert.Equal(t, "*tree.Node[interface {}]", fmt.Sprintf("%T", sut))
+		assert.Equal(t, "*node.Node[interface {}]", fmt.Sprintf("%T", sut))
 		assert.Equal(t, element, data)
 		assert.Equal(t, types[i], fmt.Sprintf("%T", data))
 	}
@@ -46,7 +47,7 @@ func TestNewNode(t *testing.T) {
 
 func TestNode_GetData(t *testing.T) {
 	// Arrange
-	sut := tree.NewNode(42)
+	sut := node.New(42)
 
 	// Act
 	data := sut.GetData()
@@ -57,8 +58,8 @@ func TestNode_GetData(t *testing.T) {
 
 func TestNode_GetNexts(t *testing.T) {
 	// Arrange
-	sut := tree.NewNode(42)
-	leaf := tree.NewNode(43)
+	sut := node.New(42)
+	leaf := node.New(43)
 	sut.AddNext(leaf)
 
 	// Act
@@ -72,8 +73,8 @@ func TestNode_GetNexts(t *testing.T) {
 
 func TestNode_GetPrevious(t *testing.T) {
 	// Arrange
-	root := tree.NewNode(42)
-	sut := tree.NewNode(43)
+	root := node.New(42)
+	sut := node.New(43)
 	root.AddNext(sut)
 
 	// Act
@@ -86,9 +87,9 @@ func TestNode_GetPrevious(t *testing.T) {
 
 func TestNode_IsRoot(t *testing.T) {
 	// Arrange
-	root := tree.NewNode(42)
-	anyNode := tree.NewNode(43)
-	leaf := tree.NewNode(44)
+	root := node.New(42)
+	anyNode := node.New(43)
+	leaf := node.New(44)
 
 	root.AddNext(anyNode)
 	anyNode.AddNext(leaf)
@@ -106,9 +107,9 @@ func TestNode_IsRoot(t *testing.T) {
 
 func TestNode_IsLeaf(t *testing.T) {
 	// Arrange
-	root := tree.NewNode(42)
-	anyNode := tree.NewNode(43)
-	leaf := tree.NewNode(44)
+	root := node.New(42)
+	anyNode := node.New(43)
+	leaf := node.New(44)
 
 	root.AddNext(anyNode)
 	anyNode.AddNext(leaf)
@@ -126,9 +127,9 @@ func TestNode_IsLeaf(t *testing.T) {
 
 func TestNode_Backtrack_WhenBuildManually_ShouldReturnCorrectly(t *testing.T) {
 	// Arrange
-	root := tree.NewNode(42)
-	anyNode := tree.NewNode(43)
-	leaf := tree.NewNode(44)
+	root := node.New(42)
+	anyNode := node.New(43)
+	leaf := node.New(44)
 
 	root.AddNext(anyNode)
 	anyNode.AddNext(leaf)
@@ -148,20 +149,20 @@ func TestNode_Backtrack_WhenBuildByTree_ShouldReturnCorrectly(t *testing.T) {
 	// Arrange
 	tr := tree.New[string]()
 
-	tr.AddRoot(tree.NewNode("0.0").WithID(0))
-	tr.Add(0, tree.NewNode("1.0").WithID(1))
-	tr.Add(0, tree.NewNode("1.1").WithID(2))
-	tr.Add(0, tree.NewNode("1.2").WithID(3))
-	tr.Add(1, tree.NewNode("2.0").WithID(4))
-	tr.Add(1, tree.NewNode("2.1").WithID(5))
-	tr.Add(1, tree.NewNode("2.2").WithID(6))
-	tr.Add(2, tree.NewNode("2.0").WithID(7))
-	tr.Add(2, tree.NewNode("2.1").WithID(8))
-	tr.Add(2, tree.NewNode("2.2").WithID(9))
-	tr.Add(3, tree.NewNode("3.0").WithID(10))
-	tr.Add(3, tree.NewNode("3.1").WithID(11))
-	tr.Add(3, tree.NewNode("3.2").WithID(12))
-	tr.Add(4, tree.NewNode("4.0").WithID(13))
+	tr.AddRoot(node.New("0.0").WithID(0))
+	tr.Add(0, node.New("1.0").WithID(1))
+	tr.Add(0, node.New("1.1").WithID(2))
+	tr.Add(0, node.New("1.2").WithID(3))
+	tr.Add(1, node.New("2.0").WithID(4))
+	tr.Add(1, node.New("2.1").WithID(5))
+	tr.Add(1, node.New("2.2").WithID(6))
+	tr.Add(2, node.New("2.0").WithID(7))
+	tr.Add(2, node.New("2.1").WithID(8))
+	tr.Add(2, node.New("2.2").WithID(9))
+	tr.Add(3, node.New("3.0").WithID(10))
+	tr.Add(3, node.New("3.1").WithID(11))
+	tr.Add(3, node.New("3.2").WithID(12))
+	tr.Add(4, node.New("4.0").WithID(13))
 
 	// Act & Assert
 	// Case 0
@@ -315,20 +316,20 @@ func TestNode_GetStructure(t *testing.T) {
 	// Arrange
 	tr := tree.New[string]()
 
-	tr.AddRoot(tree.NewNode("0.0").WithID(0))
-	tr.Add(0, tree.NewNode("1.0").WithID(1))
-	tr.Add(0, tree.NewNode("1.1").WithID(2))
-	tr.Add(0, tree.NewNode("1.2").WithID(3))
-	tr.Add(1, tree.NewNode("2.0").WithID(4))
-	tr.Add(1, tree.NewNode("2.1").WithID(5))
-	tr.Add(1, tree.NewNode("2.2").WithID(6))
-	tr.Add(2, tree.NewNode("2.0").WithID(7))
-	tr.Add(2, tree.NewNode("2.1").WithID(8))
-	tr.Add(2, tree.NewNode("2.2").WithID(9))
-	tr.Add(3, tree.NewNode("3.0").WithID(10))
-	tr.Add(3, tree.NewNode("3.1").WithID(11))
-	tr.Add(3, tree.NewNode("3.2").WithID(12))
-	tr.Add(4, tree.NewNode("4.0").WithID(13))
+	tr.AddRoot(node.New("0.0").WithID(0))
+	tr.Add(0, node.New("1.0").WithID(1))
+	tr.Add(0, node.New("1.1").WithID(2))
+	tr.Add(0, node.New("1.2").WithID(3))
+	tr.Add(1, node.New("2.0").WithID(4))
+	tr.Add(1, node.New("2.1").WithID(5))
+	tr.Add(1, node.New("2.2").WithID(6))
+	tr.Add(2, node.New("2.0").WithID(7))
+	tr.Add(2, node.New("2.1").WithID(8))
+	tr.Add(2, node.New("2.2").WithID(9))
+	tr.Add(3, node.New("3.0").WithID(10))
+	tr.Add(3, node.New("3.1").WithID(11))
+	tr.Add(3, node.New("3.2").WithID(12))
+	tr.Add(4, node.New("4.0").WithID(13))
 
 	node, _ := tr.Get(0)
 

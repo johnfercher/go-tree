@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/johnfercher/go-tree/node"
 
 	"github.com/johnfercher/go-tree/tree"
 )
@@ -10,16 +11,16 @@ import (
 func main() {
 	tr := tree.New[string]()
 
-	tr.AddRoot(tree.NewNode("0.0").WithID(0))
+	tr.AddRoot(node.New("0.0").WithID(0))
 
-	tr.Add(0, tree.NewNode("0.1").WithID(1))
-	tr.Add(0, tree.NewNode("0.2").WithID(2))
+	tr.Add(0, node.New("0.1").WithID(1))
+	tr.Add(0, node.New("0.2").WithID(2))
 
-	tr.Add(1, tree.NewNode("1.3").WithID(3))
-	tr.Add(1, tree.NewNode("1.4").WithID(4))
+	tr.Add(1, node.New("1.3").WithID(3))
+	tr.Add(1, node.New("1.4").WithID(4))
 
-	tr.Add(2, tree.NewNode("2.5").WithID(5))
-	tr.Add(2, tree.NewNode("2.6").WithID(6))
+	tr.Add(2, node.New("2.5").WithID(5))
+	tr.Add(2, node.New("2.6").WithID(6))
 
 	root, ok := tr.GetRoot()
 	fmt.Println(ok)             // true

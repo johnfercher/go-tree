@@ -2,6 +2,7 @@ package tree_test
 
 import (
 	"fmt"
+	"github.com/johnfercher/go-tree/node"
 
 	"github.com/johnfercher/go-tree/tree"
 )
@@ -11,7 +12,7 @@ func ExampleNew() {
 	tr := tree.New[string]()
 
 	// Add nodes do tree
-	tr.AddRoot(tree.NewNode("root"))
+	tr.AddRoot(node.New("root"))
 
 	// Do more things
 }
@@ -20,7 +21,7 @@ func ExampleNew() {
 func ExampleTree_AddRoot() {
 	tr := tree.New[int]()
 
-	tr.AddRoot(tree.NewNode(42))
+	tr.AddRoot(node.New(42))
 
 	// Do more things
 }
@@ -28,7 +29,7 @@ func ExampleTree_AddRoot() {
 // ExampleTree_GetRoot demonstrates how to retrieve root node from tree.
 func ExampleTree_GetRoot() {
 	tr := tree.New[float64]()
-	tr.AddRoot(tree.NewNode(3.14))
+	tr.AddRoot(node.New(3.14))
 
 	node, ok := tr.GetRoot()
 	if !ok {
@@ -42,9 +43,9 @@ func ExampleTree_GetRoot() {
 // ExampleTree_Add demonstrates how to add node to tree.
 func ExampleTree_Add() {
 	tr := tree.New[bool]()
-	tr.AddRoot(tree.NewNode(true))
+	tr.AddRoot(node.New(true))
 
-	tr.Add(0, tree.NewNode(false))
+	tr.Add(0, node.New(false))
 
 	// Do more things
 }
@@ -52,7 +53,7 @@ func ExampleTree_Add() {
 // ExampleTree_Get demonstrates how to retrieve node from tree.
 func ExampleTree_Get() {
 	tr := tree.New[uint]()
-	tr.AddRoot(tree.NewNode(uint(42)))
+	tr.AddRoot(node.New(uint(42)))
 
 	node, ok := tr.Get(0)
 	if !ok {
@@ -66,10 +67,10 @@ func ExampleTree_Get() {
 // ExampleTree_Backtrack demonstrates how to retrieve path of nodes from node to root.
 func ExampleTree_Backtrack() {
 	tr := tree.New[string]()
-	tr.AddRoot(tree.NewNode("root"))
-	tr.Add(0, tree.NewNode("level1"))
-	tr.Add(1, tree.NewNode("level2"))
-	tr.Add(2, tree.NewNode("leaf"))
+	tr.AddRoot(node.New("root"))
+	tr.Add(0, node.New("level1"))
+	tr.Add(1, node.New("level2"))
+	tr.Add(2, node.New("leaf"))
 
 	nodes, ok := tr.Backtrack(3)
 	if !ok {
@@ -85,10 +86,10 @@ func ExampleTree_Backtrack() {
 // ExampleTree_GetStructure demonstrates how to retrieve tree structure.
 func ExampleTree_GetStructure() {
 	tr := tree.New[string]()
-	tr.AddRoot(tree.NewNode("root"))
-	tr.Add(0, tree.NewNode("level1"))
-	tr.Add(1, tree.NewNode("level2"))
-	tr.Add(2, tree.NewNode("leaf"))
+	tr.AddRoot(node.New("root"))
+	tr.Add(0, node.New("level1"))
+	tr.Add(1, node.New("level2"))
+	tr.Add(2, node.New("leaf"))
 
 	structure, ok := tr.GetStructure()
 	if !ok {
@@ -101,9 +102,9 @@ func ExampleTree_GetStructure() {
 	// Do more things
 }
 
-// NewNode demonstrates how to create a node with ID.
+// New demonstrates how to create a node with ID.
 func ExampleNewNode() {
-	n := tree.NewNode("node")
+	n := node.New("node")
 
 	n.GetData()
 
@@ -112,7 +113,7 @@ func ExampleNewNode() {
 
 // ExampleNode_GetData demonstrates how to retrieve data from node.
 func ExampleNode_GetData() {
-	n := tree.NewNode(3.14)
+	n := node.New(3.14)
 
 	data := n.GetData()
 	fmt.Println(data)
@@ -122,7 +123,7 @@ func ExampleNode_GetData() {
 
 // ExampleNode_GetID demonstrates how to retrieve id from node.
 func ExampleNode_GetID() {
-	n := tree.NewNode(3.14).WithID(1)
+	n := node.New(3.14).WithID(1)
 
 	id := n.GetID()
 	fmt.Println(id)
@@ -132,8 +133,8 @@ func ExampleNode_GetID() {
 
 // ExampleNode_GetNexts demonstrates how to retrieve next nodes from node.
 func ExampleNode_GetNexts() {
-	root := tree.NewNode("root")
-	leaf := tree.NewNode("leaf")
+	root := node.New("root")
+	leaf := node.New("leaf")
 
 	root.AddNext(leaf)
 	nexts := root.GetNexts()
@@ -144,8 +145,8 @@ func ExampleNode_GetNexts() {
 
 // ExampleNode_GetPrevious demonstrates how to retrieve next nodes from node.
 func ExampleNode_GetPrevious() {
-	root := tree.NewNode("root")
-	leaf := tree.NewNode("leaf")
+	root := node.New("root")
+	leaf := node.New("leaf")
 
 	root.AddNext(leaf)
 	previous := leaf.GetPrevious()
@@ -156,7 +157,7 @@ func ExampleNode_GetPrevious() {
 
 // ExampleNode_IsRoot demonstrates how to retrieve info if node is root.
 func ExampleNode_IsRoot() {
-	n := tree.NewNode('b')
+	n := node.New('b')
 
 	root := n.IsRoot()
 	fmt.Println(root)
@@ -166,8 +167,8 @@ func ExampleNode_IsRoot() {
 
 // ExampleNode_IsLeaf demonstrates how to retrieve info if node is leaf.
 func ExampleNode_IsLeaf() {
-	n1 := tree.NewNode('a')
-	n2 := tree.NewNode('b')
+	n1 := node.New('a')
+	n2 := node.New('b')
 
 	n1.AddNext(n2)
 
@@ -179,9 +180,9 @@ func ExampleNode_IsLeaf() {
 
 // ExampleNode_Backtrack demonstrates how to retrieve the path between node to root.
 func ExampleNode_Backtrack() {
-	n1 := tree.NewNode('a')
-	n2 := tree.NewNode('b')
-	n3 := tree.NewNode('c')
+	n1 := node.New('a')
+	n2 := node.New('b')
+	n3 := node.New('c')
 
 	n1.AddNext(n2)
 	n2.AddNext(n3)
@@ -196,9 +197,9 @@ func ExampleNode_Backtrack() {
 
 // ExampleNode_GetStructure demonstrates how to retrieve the tree structure from node.
 func ExampleNode_GetStructure() {
-	n1 := tree.NewNode('a')
-	n2 := tree.NewNode('b')
-	n3 := tree.NewNode('c')
+	n1 := node.New('a')
+	n2 := node.New('b')
+	n3 := node.New('c')
 
 	n1.AddNext(n2)
 	n2.AddNext(n3)
@@ -213,8 +214,8 @@ func ExampleNode_GetStructure() {
 
 // ExampleNode_AddNext demonstrates how to add a node to a parent.
 func ExampleNode_AddNext() {
-	n1 := tree.NewNode('a')
-	n2 := tree.NewNode('b')
+	n1 := node.New('a')
+	n2 := node.New('b')
 
 	n1.AddNext(n2)
 
