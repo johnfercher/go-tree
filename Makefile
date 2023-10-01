@@ -15,7 +15,6 @@ fmt:
 	goimports -w ${GO_PATHS}
 
 lint:
-	goreportcard-cli -v
 	golangci-lint run --config=.golangci.yml ./...
 
 install:

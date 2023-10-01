@@ -2,8 +2,9 @@ package node_test
 
 import (
 	"fmt"
-	"github.com/johnfercher/go-tree/node"
 	"testing"
+
+	"github.com/johnfercher/go-tree/node"
 
 	"github.com/johnfercher/go-tree/tree"
 
