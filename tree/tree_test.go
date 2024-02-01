@@ -231,7 +231,36 @@ func TestTree_GetStructure_WhenThereIsRoot_ShouldReturnTrue(t *testing.T) {
 	}
 }
 
-func TestTree_Filter(t *testing.T) {
+func TestTree_Filter_WhenThereIsNoRoot_ShouldNotWork(t *testing.T) {
+	// Arrange
+	tr := tree.New[int]()
+
+	// Act
+	newTree, ok := tr.Filter(func(obj int) bool {
+		return obj%2 == 0
+	})
+
+	// Assert
+	assert.False(t, ok)
+	assert.Nil(t, newTree)
+}
+
+func TestTree_Filter_WhenThereIsRootButRulesDoesntApply_ShouldNotWork(t *testing.T) {
+	// Arrange
+	tr := tree.New[int]()
+	tr.AddRoot(node.New(1).WithID(1))
+
+	// Act
+	newTree, ok := tr.Filter(func(obj int) bool {
+		return obj%2 == 0
+	})
+
+	// Assert
+	assert.False(t, ok)
+	assert.Nil(t, newTree)
+}
+
+func TestTree_Filter_WhenEverythingIsOk_ShouldWork(t *testing.T) {
 	// Arrange
 	tr := tree.New[int]()
 
