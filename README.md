@@ -8,7 +8,7 @@
 [![Visits Badge](https://badges.pufler.dev/visits/johnfercher/go-tree)](https://badges.pufler.dev)
 
 
-A generic unbalanced tree implementation, where you can define which node will be added to each node.
+A generic unbalanced doubly-linked tree implementation, where you can define which node will be added to each node.
 
 ## Installation
 
