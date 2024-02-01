@@ -27,9 +27,9 @@ func main() {
 	fmt.Println(ok)             // true
 	fmt.Println(root.GetData()) // 0.0
 
-	node, ok := tr.Get(3)
-	fmt.Println(ok)             // true
-	fmt.Println(node.GetData()) // 1.3
+	found, ok := tr.Get(3)
+	fmt.Println(ok)              // true
+	fmt.Println(found.GetData()) // 1.3
 
 	structure, ok := tr.GetStructure()
 	fmt.Println(ok)        // true
@@ -37,7 +37,7 @@ func main() {
 
 	nodes, ok := tr.Backtrack(6)
 	fmt.Println(ok) // true
-	for _, node := range nodes {
-		fmt.Println(node.GetData()) // 2.6; 0.2; 0.0
+	for _, n := range nodes {
+		fmt.Println(n.GetData()) // 2.6; 0.2; 0.0
 	}
 }
