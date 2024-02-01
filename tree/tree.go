@@ -73,6 +73,23 @@ func (t *Tree[T]) GetStructure() ([]string, bool) {
 	return t.root.GetStructure(), true
 }
 
+// Filter remove all sub-nodes that doesn´t respect a rule.
+func (t *Tree[T]) Filter(filterFunc func(obj T) bool) (*Tree[T], bool) {
+	if t.root == nil {
+		return nil, false
+	}
+
+	newRoot, ok := t.root.Filter(filterFunc)
+	if !ok {
+		return nil, false
+	}
+
+	newTree := New[T]()
+	newTree.AddRoot(newRoot)
+
+	return newTree, true
+}
+
 func (t *Tree[T]) add(parentID int, parentNode *node.Node[T], newNode *node.Node[T]) bool {
 	if parentID == parentNode.GetID() {
 		parentNode.AddNext(newNode)
