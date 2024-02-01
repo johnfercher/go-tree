@@ -41,6 +41,7 @@ go get -u github.com/johnfercher/go-tree
 * [GetStructure](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.GetStructure)
 * [IsLeaf](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.IsLeaf)
 * [IsRoot](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.IsLeaf)
+* [Filter](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Node.Filter)
 
 ### Tree
 * [New](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#New)
@@ -50,6 +51,7 @@ go get -u github.com/johnfercher/go-tree
 * [Get](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Tree.Get)
 * [GetRoot](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Tree.GetRoot)
 * [GetStructure](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Tree.GetStructure)
+* [Filter](https://pkg.go.dev/github.com/johnfercher/go-tree/tree#Tree.Filter)
 
 ## Example
 

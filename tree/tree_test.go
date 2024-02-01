@@ -230,3 +230,56 @@ func TestTree_GetStructure_WhenThereIsRoot_ShouldReturnTrue(t *testing.T) {
 		assert.NotEmpty(t, str)
 	}
 }
+
+func TestTree_Filter_WhenThereIsNoRoot_ShouldNotWork(t *testing.T) {
+	// Arrange
+	tr := tree.New[int]()
+
+	// Act
+	newTree, ok := tr.Filter(func(obj int) bool {
+		return obj%2 == 0
+	})
+
+	// Assert
+	assert.False(t, ok)
+	assert.Nil(t, newTree)
+}
+
+func TestTree_Filter_WhenThereIsRootButRulesDoesntApply_ShouldNotWork(t *testing.T) {
+	// Arrange
+	tr := tree.New[int]()
+	tr.AddRoot(node.New(1).WithID(1))
+
+	// Act
+	newTree, ok := tr.Filter(func(obj int) bool {
+		return obj%2 == 0
+	})
+
+	// Assert
+	assert.False(t, ok)
+	assert.Nil(t, newTree)
+}
+
+func TestTree_Filter_WhenEverythingIsOk_ShouldWork(t *testing.T) {
+	// Arrange
+	tr := tree.New[int]()
+
+	tr.AddRoot(node.New(0).WithID(0))
+	tr.Add(0, node.New(1).WithID(1))
+	tr.Add(0, node.New(2).WithID(2))
+	tr.Add(1, node.New(3).WithID(3))
+
+	// Act
+	newTree, ok := tr.Filter(func(obj int) bool {
+		return obj%2 == 0
+	})
+
+	newN0, _ := newTree.GetRoot()
+
+	// Assert
+	assert.True(t, ok)
+	assert.Equal(t, 0, newN0.GetID())
+
+	nexts := newN0.GetNexts()
+	assert.Equal(t, 2, nexts[0].GetID())
+}

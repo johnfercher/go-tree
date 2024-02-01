@@ -72,11 +72,19 @@ func (n *Node[T]) Backtrack() []*Node[T] {
 // GetStructure retrieves the node structure.
 func (n *Node[T]) GetStructure() []string {
 	var structure []string
+	var current string
+
 	if n.previous == nil {
-		structure = append(structure, fmt.Sprintf("(NULL) -> (%d)", n.id))
+		current = fmt.Sprintf("(NULL) -> (%d)", n.id)
 	} else {
-		structure = append(structure, fmt.Sprintf("(%d) -> (%d)", n.previous.id, n.id))
+		current = fmt.Sprintf("(%d) -> (%d)", n.previous.id, n.id)
 	}
+
+	if n.nexts != nil {
+		current += ", "
+	}
+
+	structure = append(structure, current)
 
 	for _, next := range n.nexts {
 		innerStructure := next.GetStructure()
@@ -90,4 +98,22 @@ func (n *Node[T]) GetStructure() []string {
 func (n *Node[T]) AddNext(node *Node[T]) {
 	node.previous = n
 	n.nexts = append(n.nexts, node)
+}
+
+// Filter remove all sub-nodes that doesn´t respect a rule.
+func (n *Node[T]) Filter(filterFunc func(obj T) bool) (*Node[T], bool) {
+	if !filterFunc(n.GetData()) {
+		return nil, false
+	}
+
+	newNode := New(n.GetData()).WithID(n.GetID())
+
+	for _, next := range n.nexts {
+		innerNode, ok := next.Filter(filterFunc)
+		if ok {
+			newNode.AddNext(innerNode)
+		}
+	}
+
+	return newNode, true
 }

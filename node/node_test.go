@@ -343,3 +343,27 @@ func TestNode_GetStructure(t *testing.T) {
 		assert.NotEmpty(t, str)
 	}
 }
+
+func TestNode_Filter(t *testing.T) {
+	// Arrange
+	n0 := node.New(0).WithID(0)
+	n1 := node.New(1).WithID(1)
+	n2 := node.New(2).WithID(2)
+	n3 := node.New(3).WithID(3)
+
+	n0.AddNext(n1)
+	n0.AddNext(n2)
+	n1.AddNext(n3)
+
+	// Act
+	newN0, ok := n0.Filter(func(obj int) bool {
+		return obj%2 == 0
+	})
+
+	// Assert
+	assert.True(t, ok)
+	assert.Equal(t, 0, newN0.GetID())
+
+	nexts := newN0.GetNexts()
+	assert.Equal(t, 2, nexts[0].GetID())
+}
